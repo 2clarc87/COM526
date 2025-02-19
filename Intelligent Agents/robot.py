@@ -1,5 +1,3 @@
-import flame
-import water_station
 from agent import Agent
 import utils
 import random
@@ -49,8 +47,8 @@ class Robot(Agent):
             return "flame", random.choice(flames)
         if self.find_coords('🔥'):
             return "move", self.calc_path(self.position, self.find_coords('🔥'))
-        elif self.find_coords('?'):
-            return "move", self.calc_path(self.position, self.find_coords('?'))
+        # elif self.find_coords('?'):
+        #     return "move", self.calc_path(self.position, self.find_coords('?'))
         return "move", random.choice(moves)
 
     def act(self, environment, robot):
