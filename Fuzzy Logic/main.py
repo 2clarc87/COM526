@@ -1,6 +1,6 @@
 import numpy as np
 import skfuzzy as fuzz
-from skfuzzy import control as ctrl
+from skfuzzy import (control as ctrl)
 
 time = ctrl.Antecedent(np.arange(0, 24, 0.5), 'time')
 hours_worked = ctrl.Antecedent(np.arange(0, 12, 0.5), 'hours_worked')

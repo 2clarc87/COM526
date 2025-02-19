@@ -49,5 +49,5 @@ inference = VariableElimination(model)
 query_result = inference.query(variables=['TrafficJam'], evidence={'Rain': 1, 'Accident': 0, 'Roadworks': 1})
 
 print(query_result)
-# display_model(model)      # Uncomment to visually see your model
-# print_cpds(model)         # Uncomment to see the CPD tables for each node
+display_model(model)      # Uncomment to visually see your model
+print_cpds(model)         # Uncomment to see the CPD tables for each node

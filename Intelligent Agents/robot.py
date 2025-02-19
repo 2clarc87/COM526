@@ -10,16 +10,20 @@ class Robot(Agent):
 
     def __init__(self, position: tuple[int, int]):
         super().__init__(position)
-        self.water_level = 5
+        self.water_level = 100
         self.water_station_location = None
         self.map = [["?" for _ in range(10)] for _ in range(10)]
+        self.map[position[1]][position[0]] = " "
 
     def display_map(self):
         out = ""
+        self.map[self.position[1]][self.position[0]] = '🚒'
         for row in self.map:
             for col in row:
+                # if [col][row] == self.map:
                 out += f"{col}\t"
             out += "\n"
+        self.map[self.position[1]][self.position[0]] = ' '
         return out
 
     def decide(self, percept: dict[tuple[int, int], ...]):
@@ -40,8 +44,13 @@ class Robot(Agent):
             else:
                 self.map[cell[1]][cell[0]] = " "
                 moves.append(cell)
+
         if flames and self.water_level != 0:
             return "flame", random.choice(flames)
+        if self.find_coords('🔥'):
+            return "move", self.calc_path(self.position, self.find_coords('🔥'))
+        elif self.find_coords('?'):
+            return "move", self.calc_path(self.position, self.find_coords('?'))
         return "move", random.choice(moves)
 
     def act(self, environment, robot):
@@ -56,7 +65,21 @@ class Robot(Agent):
             environment.world[decision[1][1]][decision[1][0]] = " "
 
     def fill(self):
-        self.water_level = 5
+        self.water_level = 100
+
+    def find_coords(self, item):
+        list_item = []
+        for y in range(10):
+            for x in range(10):
+                if self.map[y][x] == item:
+                     list_item.append((y,x))
+        min_length = 100
+        return_value = None
+        for move in list_item:
+            if min_length > self.calc_distance(self.position, move):
+                min_length = self.calc_distance(self.position, move)
+                return_value = move
+        return return_value
 
     def __str__(self):
         return '🚒'
